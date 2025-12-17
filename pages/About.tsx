@@ -3,7 +3,7 @@ import AnimatedSection from '../components/AnimatedSection';
 import type { TeamMember } from '../types';
 
 const team: TeamMember[] = [
-  { name: 'Jane Doe', role: 'Founder & CEO', imageUrl: 'https://picsum.photos/500/500?random=1' },
+  { name: 'Syed Daaniyal Ali', role: 'Founder & CEO', imageUrl: 'https://picsum.photos/500/500?random=1' },
 ];
 
 const About: React.FC = () => {
