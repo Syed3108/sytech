@@ -1,9 +1,30 @@
 import React, { useEffect } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import type { TeamMember } from '../types';
+import ourVision from '../assets/our.png';
+import ourMission from '../assets/vision.png';
+import { motion } from 'framer-motion';
+
+const Sparkles: React.FC<{ className?: string; size?: number }> = ({ className, size = 18 }) => (
+  <svg
+    className={className}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    role="img"
+  >
+    <path
+      d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14 10.5 9.5 6 8l4.5-1.5L12 2z"
+      fill="currentColor"
+    />
+  </svg>
+);
 
 const team: TeamMember[] = [
-  { name: 'Syed Daaniyal Ali', role: 'Founder & CEO', imageUrl: 'https://picsum.photos/500/500?random=1' },
+  { name: 'Syed Daaniyal Ali', role: 'Founder & CEO', imageUrl: '/assets/founder.png' },
 ];
 
 const About: React.FC = () => {
@@ -18,7 +39,7 @@ const About: React.FC = () => {
       {/* Page Header */}
       <header className="relative bg-gray-900 py-24 sm:py-32">
         <div className="absolute inset-0">
-          <img src="https://picsum.photos/1920/1080?grayscale&blur=1" className="w-full h-full object-cover opacity-30" alt="Abstract grayscale background" />
+          <img src={ourVision} className="w-full h-full object-cover opacity-30" alt="Abstract grayscale background" />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
         </div>
         <div className="relative max-w-md mx-auto pl-4 pr-8 sm:max-w-lg sm:px-6 lg:max-w-7xl lg:px-8 text-center">
@@ -40,10 +61,10 @@ const About: React.FC = () => {
               </p>
             </div>
             <div className="mt-12 lg:mt-0 relative">
-              <div className="absolute -top-4 -right-4 w-2/3 h-2/3 bg-red-50 rounded-lg transform rotate-6 dark:bg-red-900/20" aria-hidden="true"></div>
-              <div className="absolute bottom-4 left-4 w-1/2 h-1/2 bg-gray-100 rounded-lg transform -rotate-3 dark:bg-gray-800" aria-hidden="true"></div>
+              {/* <div className="absolute -top-4 -right-4 w-2/3 h-2/3 bg-red-50 rounded-lg transform rotate-6 dark:bg-red-900/20" aria-hidden="true"></div>
+              <div className="absolute bottom-4 left-4 w-1/2 h-1/2 bg-gray-100 rounded-lg transform -rotate-3 dark:bg-gray-800" aria-hidden="true"></div> */}
               <figure className="relative">
-                <img className="rounded-xl shadow-xl ring-1 ring-black ring-opacity-5" src="https://picsum.photos/600/400?random=10" alt="A diverse team collaborating around a table in a bright, modern office." />
+                <img className="rounded-xl shadow-xl ring-1 ring-black ring-opacity-5" src={ourMission} alt="mission" />
               </figure>
             </div>
           </div>
@@ -51,6 +72,7 @@ const About: React.FC = () => {
       </AnimatedSection>
 
       {/* Our Values Section */}
+      
       <AnimatedSection aria-labelledby="values-heading" className="bg-gray-50 py-20 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -84,31 +106,93 @@ const About: React.FC = () => {
       </AnimatedSection>
 
       {/* Meet the Team */}
-      <AnimatedSection aria-labelledby="team-heading" className="bg-white py-20 dark:bg-black">
+      {(() => {
+        // dynamic require to avoid touching top-level imports in the surrounding file
+        // you can replace these with top-level imports:
+        // import { motion } from 'framer-motion'
+        // import { Sparkles } from 'lucide-react'
+
+        const listVariants = {
+          hidden: { opacity: 0, y: 8 },
+          visible: (i: number) => ({
+        opacity: 1,
+        y: 0,
+        transition: { delay: i * 0.12, ease: 'easeOut', duration: 0.5 },
+          }),
+        };
+
+        return (
+          <AnimatedSection aria-labelledby="team-heading" className="bg-white py-20 dark:bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-12">
             <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none mx-auto text-center">
-              <h2 id="team-heading" className="text-3xl font-extrabold tracking-tight sm:text-4xl dark:text-white">Meet the Visionary</h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300">The driving force behind our innovation.</p>
+          <h2 id="team-heading" className="text-3xl font-extrabold tracking-tight sm:text-4xl dark:text-white">Meet the Visionary</h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300">The driving force behind our innovation.</p>
             </div>
-            <div className="flex justify-center">
-              {team.map((person) => (
-                <div key={person.name} className="max-w-xs">
-                  <div className="group space-y-4 text-center bg-white p-6 rounded-xl border border-gray-200 transition-all duration-300 ease-in-out hover:shadow-xl hover:border-red-400 hover:-translate-y-2 dark:bg-gray-800 dark:border-gray-700 dark:hover:border-red-500">
-                    <div className="relative inline-block">
-                      <img className="object-cover h-40 w-40 rounded-full mx-auto ring-4 ring-gray-100 transition-all duration-300 group-hover:ring-red-200 dark:ring-gray-700 dark:group-hover:ring-red-400/50" src={person.imageUrl} alt={`Headshot of ${person.name}, ${person.role}.`} />
-                    </div>
-                    <div className="space-y-2">
-                      <h3 className="text-xl leading-6 font-bold text-gray-900 dark:text-white">{person.name}</h3>
-                      <p className="text-red-600 font-semibold dark:text-red-400">{person.role}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+
+            <div className="flex justify-center items-center gap-6 flex-wrap">
+          {team.map((person, idx) => (
+            <motion.div
+              key={person.name}
+              custom={idx}
+              initial="hidden"
+              animate="visible"
+              variants={listVariants}
+              whileHover={{ scale: 1.03 }}
+              className="max-w-xs"
+            >
+              <motion.article
+            layout
+            className="group space-y-4 text-center bg-white p-6 rounded-xl border border-gray-200 transition-all duration-300 ease-in-out hover:shadow-xl hover:border-red-400 hover:-translate-y-2 dark:bg-gray-800 dark:border-gray-700 dark:hover:border-red-500"
+            whileTap={{ scale: 0.98 }}
+              >
+            <div className="relative inline-block w-44 h-44 mx-auto">
+              {/* Decorative animated rings/background */}
+              <span aria-hidden="true" className="absolute inset-0 flex items-center justify-center">
+                <motion.span
+              className="absolute rounded-full w-44 h-44 bg-red-500/8 dark:bg-red-500/6 blur-sm"
+              animate={{ scale: [1, 1.06, 1] }}
+              transition={{ duration: 3, repeat: Infinity }}
+                />
+                <motion.span
+              className="absolute rounded-full w-56 h-56 border-2 border-red-300/30 dark:border-red-500/20 transform scale-95"
+              animate={{ opacity: [0.6, 0.2, 0.6] }}
+              transition={{ duration: 2.8, repeat: Infinity }}
+                />
+                <motion.span
+              className="absolute rounded-full w-64 h-64 bg-gradient-to-r from-red-200/10 via-transparent to-transparent opacity-60 blur-lg"
+              style={{ transformOrigin: '50% 50%' }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+                />
+              </span>
+
+              <motion.img
+                className="relative z-10 object-cover h-40 w-40 rounded-full mx-auto ring-4 ring-gray-100 transition-transform duration-500 transform group-hover:scale-105 group-hover:-translate-y-1 dark:ring-gray-700 dark:group-hover:ring-red-400/50"
+                src={person.imageUrl}
+                alt={`Headshot of ${person.name}, ${person.role}.`}
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.45, ease: 'easeOut' }}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="flex items-center justify-center gap-2 text-xl leading-6 font-bold text-gray-900 dark:text-white">
+                {person.name}
+                <Sparkles className="text-red-500" size={18} />
+              </h3>
+              <p className="text-red-600 font-semibold dark:text-red-400">{person.role}</p>
+            </div>
+              </motion.article>
+            </motion.div>
+          ))}
             </div>
           </div>
         </div>
-      </AnimatedSection>
+          </AnimatedSection>
+        );
+      })()}
     </div>
   );
 };

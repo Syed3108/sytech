@@ -87,7 +87,7 @@ const Header: React.FC = () => {
                   aria-hidden="true"
                   style={{
                     display: "inline-block",
-                    borderRadius: "0.375rem",
+                    borderRadius: "30%",
                     backgroundColor: "#dc2626",
                     padding: "0.25rem",
                     animation: "spinBg 8s linear infinite",
